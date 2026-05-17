@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Notas</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div id="app-container" class="app-container" style="display: flex;">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="app-title">📝 Sistema de Notas</h1>
+                <div class="user-info">
+                    <span id="user-name" class="user-name"></span>
+                    <span id="user-role" class="user-role"></span>
+                    <button id="logout-btn" class="btn btn-secondary">Cerrar Sesión</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Tabs Navigation -->
+            <nav class="tabs-nav">
+                <button class="tab-button active" data-tab="notes-tab">Mis Notas</button>
+                <button class="tab-button" id="create-note-tab" data-tab="create-tab" style="display: none;">
+                    ➕ Crear Nota
+                </button>
+                <button class="tab-button" id="students-tab-btn" data-tab="students-tab" style="display: none;">
+                    👥 Estudiantes
+                </button>
+            </nav>
+
+            <!-- Notas Tab -->
+            <section id="notes-tab" class="tab-content active">
+                <div class="section-header">
+                    <h2>Mis Notas</h2>
+                    <button id="refresh-notes-btn" class="btn btn-small">🔄 Actualizar</button>
+                </div>
+                <div id="notes-list" class="notes-grid">
+                    <div class="loading">Cargando notas...</div>
+                </div>
+            </section>
+
+            <!-- Create/Edit Note Tab -->
+            <section id="create-tab" class="tab-content" style="display: none;">
+                <div class="section-header">
+                    <h2 id="form-title">Crear Nueva Nota</h2>
+                </div>
+                <form id="note-form" class="note-form">
+                    <div class="form-group">
+                        <label for="note-title">Título:</label>
+                        <input type="text" id="note-title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="note-content">Contenido:</label>
+                        <textarea id="note-content" name="content" rows="6" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="note-student">Asignar a Estudiante:</label>
+                        <select id="note-student" name="student" required>
+                            <option value="">Selecciona un estudiante</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="note-grade">Calificación:</label>
+                        <input type="number" id="note-grade" name="grade" min="0" max="100" step="0.1">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Guardar Nota</button>
+                        <button type="button" id="cancel-form-btn" class="btn btn-secondary">Cancelar</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Students Tab -->
+            <section id="students-tab" class="tab-content" style="display: none;">
+                <div class="section-header">
+                    <h2>Estudiantes Registrados</h2>
+                </div>
+                <div id="students-list" class="students-table">
+                    <div class="loading">Cargando estudiantes...</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para ver detalles de nota -->
+    <div id="note-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-note-title">Título de la Nota</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modal-note-content"></p>
+                <div class="note-meta">
+                    <p><strong>Estudiante:</strong> <span id="modal-note-student"></span></p>
+                    <p><strong>Calificación:</strong> <span id="modal-note-grade">-</span></p>
+                    <p><strong>Fecha:</strong> <span id="modal-note-date"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-edit-btn" class="btn btn-primary" style="display: none;">Editar</button>
+                <button id="modal-delete-btn" class="btn btn-danger" style="display: none;">Eliminar</button>
+                <button class="btn btn-secondary modal-close-btn">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
