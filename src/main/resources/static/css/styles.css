@@ -1,7 +1,6 @@
 /* ============================================
    VARIABLES Y ESTILOS GLOBALES
    ============================================ */
-
 :root {
     --primary-color: #3498db;
     --primary-dark: #2980b9;
@@ -20,11 +19,7 @@
     --transition: all 0.3s ease;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -34,97 +29,8 @@ body {
 }
 
 /* ============================================
-   LOGIN CONTAINER
-   ============================================ */
-
-#login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-.login-box {
-    background: var(--white);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-lg);
-    padding: 40px;
-    width: 100%;
-    max-width: 400px;
-    animation: slideIn 0.3s ease;
-}
-
-.login-box h1 {
-    text-align: center;
-    margin-bottom: 10px;
-    color: var(--primary-color);
-    font-size: 28px;
-}
-
-.subtitle {
-    text-align: center;
-    color: var(--text-light);
-    margin-bottom: 30px;
-    font-size: 14px;
-}
-
-.login-box form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.form-group label {
-    font-weight: 600;
-    color: var(--text-dark);
-    font-size: 14px;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    font-size: 14px;
-    font-family: inherit;
-    transition: var(--transition);
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-}
-
-.error-message {
-    color: var(--danger-color);
-    font-size: 14px;
-    text-align: center;
-    display: none;
-    padding: 12px;
-    background: rgba(231, 76, 60, 0.1);
-    border-radius: var(--border-radius);
-    border-left: 3px solid var(--danger-color);
-}
-
-.error-message.show {
-    display: block;
-}
-
-/* ============================================
    BOTONES
    ============================================ */
-
 .btn {
     padding: 12px 24px;
     border: none;
@@ -136,55 +42,23 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
-.btn-primary {
-    background: var(--primary-color);
-    color: var(--white);
-}
-
-.btn-primary:hover {
-    background: var(--primary-dark);
-    box-shadow: var(--shadow);
-    transform: translateY(-2px);
-}
-
-.btn-secondary {
-    background: var(--secondary-color);
-    color: var(--white);
-}
-
-.btn-secondary:hover {
-    background: #7f8c8d;
-    box-shadow: var(--shadow);
-}
-
-.btn-danger {
-    background: var(--danger-color);
-    color: var(--white);
-}
-
-.btn-danger:hover {
-    background: #c0392b;
-    box-shadow: var(--shadow);
-}
-
-.btn-small {
-    padding: 8px 16px;
-    font-size: 12px;
-}
+.btn-primary { background: var(--primary-color); color: var(--white); }
+.btn-primary:hover { background: var(--primary-dark); box-shadow: var(--shadow); transform: translateY(-2px); }
+.btn-secondary { background: var(--secondary-color); color: var(--white); }
+.btn-secondary:hover { background: #7f8c8d; box-shadow: var(--shadow); }
+.btn-danger { background: var(--danger-color); color: var(--white); }
+.btn-danger:hover { background: #c0392b; box-shadow: var(--shadow); }
+.btn-small { padding: 8px 16px; font-size: 12px; }
 
 /* ============================================
-   APP CONTAINER
+   APP CONTAINER & HEADER
    ============================================ */
-
 .app-container {
     background: var(--white);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
-
-/* HEADER */
 .header {
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     color: var(--white);
@@ -194,7 +68,6 @@ body {
     top: 0;
     z-index: 100;
 }
-
 .header-content {
     max-width: 1200px;
     margin: 0 auto;
@@ -203,24 +76,9 @@ body {
     align-items: center;
     gap: 20px;
 }
-
-.app-title {
-    font-size: 24px;
-    font-weight: 700;
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.user-name {
-    font-weight: 600;
-    font-size: 14px;
-}
-
+.app-title { font-size: 24px; font-weight: 700; }
+.user-info { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+.user-name { font-weight: 600; font-size: 14px; }
 .user-role {
     background: rgba(255, 255, 255, 0.2);
     padding: 4px 12px;
@@ -229,7 +87,9 @@ body {
     font-weight: 600;
 }
 
-/* MAIN CONTENT */
+/* ============================================
+   MAIN CONTENT & TABS
+   ============================================ */
 .main-content {
     flex: 1;
     max-width: 1200px;
@@ -237,8 +97,6 @@ body {
     width: 100%;
     padding: 30px 20px;
 }
-
-/* TABS */
 .tabs-nav {
     display: flex;
     gap: 10px;
@@ -246,7 +104,6 @@ body {
     margin-bottom: 30px;
     flex-wrap: wrap;
 }
-
 .tab-button {
     background: none;
     border: none;
@@ -260,48 +117,26 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
-.tab-button:hover {
-    color: var(--primary-color);
-}
-
-.tab-button.active {
-    color: var(--primary-color);
-    border-bottom-color: var(--primary-color);
-}
-
-/* TAB CONTENT */
-.tab-content {
-    display: none;
-    animation: fadeIn 0.3s ease;
-}
-
-.tab-content.active {
-    display: block;
-}
-
+.tab-button:hover { color: var(--primary-color); }
+.tab-button.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+.tab-content { display: none; animation: fadeIn 0.3s ease; }
+.tab-content.active { display: block; }
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
 }
-
-.section-header h2 {
-    font-size: 22px;
-    color: var(--text-dark);
-}
+.section-header h2 { font-size: 22px; color: var(--text-dark); }
 
 /* ============================================
    NOTAS GRID
    ============================================ */
-
 .notes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
 }
-
 .note-card {
     background: var(--white);
     border: 1px solid var(--border-color);
@@ -311,13 +146,11 @@ body {
     transition: var(--transition);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-
 .note-card:hover {
     box-shadow: var(--shadow);
     transform: translateY(-4px);
     border-color: var(--primary-color);
 }
-
 .note-title {
     font-size: 18px;
     font-weight: 700;
@@ -327,7 +160,6 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
 .note-preview {
     color: var(--text-light);
     font-size: 14px;
@@ -340,7 +172,8 @@ body {
     margin-bottom: 15px;
 }
 
-.note-meta {
+/* FIX: Separadas en dos clases distintas para evitar el conflicto */
+.note-card-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -349,52 +182,45 @@ body {
     padding-top: 15px;
     border-top: 1px solid var(--light-bg);
 }
-
-.note-student {
-    font-weight: 600;
-}
-
+.note-student { font-weight: 600; }
 .note-grade {
     background: var(--light-bg);
     padding: 4px 12px;
     border-radius: 4px;
     font-weight: 600;
 }
-
-.loading {
-    text-align: center;
-    padding: 40px;
-    color: var(--text-light);
-    font-size: 16px;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-light);
-}
-
-.empty-state h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: var(--text-dark);
-}
+.loading { text-align: center; padding: 40px; color: var(--text-light); font-size: 16px; }
+.empty-state { text-align: center; padding: 60px 20px; color: var(--text-light); }
+.empty-state h3 { font-size: 20px; margin-bottom: 10px; color: var(--text-dark); }
 
 /* ============================================
    FORMULARIO DE NOTA
    ============================================ */
-
 .note-form {
     background: var(--light-bg);
     padding: 30px;
     border-radius: var(--border-radius);
     max-width: 600px;
 }
-
-.note-form .form-group {
-    margin-bottom: 20px;
+.form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.form-group label { font-weight: 600; color: var(--text-dark); font-size: 14px; }
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    font-family: inherit;
+    transition: var(--transition);
 }
-
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
 .form-actions {
     display: flex;
     gap: 15px;
@@ -403,13 +229,9 @@ body {
 }
 
 /* ============================================
-   TABLA DE ESTUDIANTES
+   TABLA DE ESTUDIANTES / USUARIOS
    ============================================ */
-
-.students-table {
-    overflow-x: auto;
-}
-
+.students-table { overflow-x: auto; }
 .students-table table {
     width: 100%;
     border-collapse: collapse;
@@ -418,7 +240,6 @@ body {
     overflow: hidden;
     box-shadow: var(--shadow);
 }
-
 .students-table th {
     background: var(--light-bg);
     padding: 15px;
@@ -427,39 +248,27 @@ body {
     color: var(--text-dark);
     border-bottom: 2px solid var(--border-color);
 }
-
-.students-table td {
-    padding: 15px;
-    border-bottom: 1px solid var(--light-bg);
-}
-
-.students-table tr:hover {
-    background: var(--light-bg);
-}
+.students-table td { padding: 15px; border-bottom: 1px solid var(--light-bg); }
+.students-table tr:hover { background: var(--light-bg); }
 
 /* ============================================
    MODAL
    ============================================ */
-
 .modal {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0, 0, 0, 0.6);
     z-index: 1000;
     animation: fadeIn 0.2s ease;
 }
-
+/* FIX: El estado "show" controla display:flex; el JS solo añade/quita esta clase */
 .modal.show {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
 }
-
 .modal-content {
     background: var(--white);
     border-radius: var(--border-radius);
@@ -468,7 +277,6 @@ body {
     box-shadow: var(--shadow-lg);
     animation: slideIn 0.3s ease;
 }
-
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -476,12 +284,7 @@ body {
     padding: 25px;
     border-bottom: 1px solid var(--light-bg);
 }
-
-.modal-header h2 {
-    font-size: 22px;
-    color: var(--text-dark);
-}
-
+.modal-header h2 { font-size: 22px; color: var(--text-dark); }
 .modal-close {
     background: none;
     border: none;
@@ -490,22 +293,12 @@ body {
     cursor: pointer;
     transition: var(--transition);
 }
+.modal-close:hover { color: var(--danger-color); }
+.modal-body { padding: 25px; }
+.modal-body > p { line-height: 1.8; margin-bottom: 15px; color: var(--text-dark); }
 
-.modal-close:hover {
-    color: var(--danger-color);
-}
-
-.modal-body {
-    padding: 25px;
-}
-
-.modal-body p {
-    line-height: 1.8;
-    margin-bottom: 15px;
-    color: var(--text-dark);
-}
-
-.note-meta {
+/* FIX: Renombrada a .modal-note-meta para no colisionar con .note-card-meta */
+.modal-note-meta {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -513,12 +306,7 @@ body {
     padding-top: 20px;
     border-top: 1px solid var(--light-bg);
 }
-
-.note-meta p {
-    margin: 0;
-    font-size: 14px;
-}
-
+.modal-note-meta p { margin: 0; font-size: 14px; }
 .modal-footer {
     padding: 20px 25px;
     border-top: 1px solid var(--light-bg);
@@ -530,116 +318,25 @@ body {
 /* ============================================
    ANIMACIONES
    ============================================ */
-
 @keyframes slideIn {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
-
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* ============================================
    RESPONSIVE DESIGN
    ============================================ */
-
 @media (max-width: 768px) {
-    .header-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .user-info {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .app-title {
-        font-size: 20px;
-    }
-
-    .main-content {
-        padding: 20px 15px;
-    }
-
-    .notes-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .tabs-nav {
-        overflow-x: auto;
-    }
-
-    .tab-button {
-        font-size: 13px;
-        padding: 10px 15px;
-        white-space: nowrap;
-    }
-
-    .section-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .note-form {
-        padding: 20px;
-    }
-
-    .form-actions {
-        flex-direction: column;
-    }
-
-    .form-actions .btn {
-        width: 100%;
-    }
-
-    .modal-content {
-        max-width: 90%;
-    }
-}
-
-@media (max-width: 480px) {
-    .login-box {
-        padding: 25px;
-    }
-
-    .app-title {
-        font-size: 18px;
-    }
-
-    .header {
-        padding: 15px;
-    }
-
-    .tabs-nav {
-        gap: 5px;
-    }
-
-    .tab-button {
-        font-size: 12px;
-        padding: 8px 12px;
-    }
-
-    .note-card {
-        padding: 15px;
-    }
-
-    .btn {
-        padding: 10px 16px;
-        font-size: 12px;
-    }
+    .header-content { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .user-info { width: 100%; justify-content: space-between; }
+    .app-title { font-size: 20px; }
+    .main-content { padding: 20px 15px; }
+    .notes-grid { grid-template-columns: 1fr; }
+    .tabs-nav { overflow-x: auto; }
+    .tab-button { font-size: 13px; padding: 10px 15px; white-space: nowrap; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 15px; }
 }

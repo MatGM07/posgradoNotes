@@ -6,5 +6,6 @@ package com.posgrado.notes.model;
  */
 public enum Rol {
     PROFESOR,
-    ESTUDIANTE
+    ESTUDIANTE,
+    ASISTENTE
 }

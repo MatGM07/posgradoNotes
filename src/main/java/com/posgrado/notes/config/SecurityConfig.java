@@ -12,17 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * ╔══════════════════════════════════════════════════════════════════╗
- * ║           CONFIGURACIÓN DE SEGURIDAD — notes-service            ║
- * ╠══════════════════════════════════════════════════════════════════╣
- * ║ Contrasta con admin-service en dos aspectos clave:              ║
- * ║ 1. Usa DaoAuthenticationProvider + CustomUserDetailsService     ║
- * ║    (BD) en lugar de InMemoryUserDetailsManager.                 ║
- * ║ 2. Tiene reglas de autorización por ROL Y por método HTTP,      ║
- * ║    reflejando un modelo de negocio real con dos tipos de usuario.║
- * ╚══════════════════════════════════════════════════════════════════╝
- */
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -30,17 +20,6 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
 
-    /**
-     * PUNTO CLAVE 1 — SecurityFilterChain con reglas por rol
-     *
-     * Se definen dos niveles de protección:
-     *   a) Por método HTTP: POST/PUT/DELETE en /notes solo para PROFESOR
-     *   b) Por URL: /students solo para PROFESOR
-     *   c) Todo lo demás requiere autenticación (cualquier rol)
-     *
-     * El ESTUDIANTE intentar llamar POST /notes → 403 Forbidden
-     * sin llegar siquiera al controlador.
-     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -51,31 +30,69 @@ public class SecurityConfig {
             .authenticationProvider(authenticationProvider())
 
             .authorizeHttpRequests(auth -> auth
-                // Rutas públicas
-                .requestMatchers("/login", "/error").permitAll()
+                // 1. RUTAS PÚBLICAS: Libre acceso sin credenciales
+                .requestMatchers("/login", "/login.html", "/error").permitAll()
 
-                // Solo PROFESOR puede crear, modificar y eliminar notas
+                // 2. ROL ASISTENTE: Alcance global de auditoría (Lectura total)
+                .requestMatchers(HttpMethod.GET, "/notes/all").hasRole("ASISTENTE")
+                .requestMatchers(HttpMethod.GET, "/users").hasRole("ASISTENTE")
+
+                // 3. ROL PROFESOR: Acciones de escritura y gestión sobre las notas y alumnos
                 .requestMatchers(HttpMethod.POST,   "/notes").hasRole("PROFESOR")
                 .requestMatchers(HttpMethod.PUT,    "/notes/**").hasRole("PROFESOR")
                 .requestMatchers(HttpMethod.DELETE, "/notes/**").hasRole("PROFESOR")
+                .requestMatchers(HttpMethod.GET,    "/students").hasRole("PROFESOR")
 
-                // Solo PROFESOR puede consultar el listado de estudiantes
-                .requestMatchers(HttpMethod.GET, "/students").hasRole("PROFESOR")
+                // 4. ROL ESTUDIANTE (Y PROFESOR): Consulta de calificaciones
+                .requestMatchers(HttpMethod.GET, "/notes").hasAnyRole("PROFESOR", "ESTUDIANTE")
+                .requestMatchers(HttpMethod.GET, "/notes/*").hasAnyRole("PROFESOR", "ESTUDIANTE")
 
-                // Leer notas y /me: cualquier usuario autenticado (ambos roles)
+                // 5. CUALQUIER ROL AUTENTICADO: Autogestión de perfil corporativo
+                .requestMatchers(HttpMethod.GET, "/me").authenticated()
+
+                // 6. CIERRE PERIMETRAL: Cualquier otra ruta no declarada explícitamente requiere inicio de sesión
                 .anyRequest().authenticated()
             )
 
             .formLogin(form -> form
+                .loginPage("/login.html")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/index.html", true)   // tras login exitoso → info del usuario
                 .failureUrl("/login?error=true")
                 .permitAll()
             )
 
+            .sessionManagement(session -> session
+                // A dónde redirigir si la sesión ya no es válida (por inactividad)
+                .invalidSessionUrl("/login.html") 
+                
+                // Opcional: Control de concurrencia (evita que el mismo usuario inicie sesión en 2 navegadores distintos a la vez)
+                .maximumSessions(1) 
+                .expiredUrl("/login.html")
+            )
+
+            .exceptionHandling(ex -> ex
+                // 1. Maneja el error 403 (Tiene sesión, pero no tiene el rol adecuado)
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    response.sendRedirect("/error?status=403");
+                })
+                // 2. Maneja el error 401 (No tiene sesión) con redirección inteligente
+                .authenticationEntryPoint((request, response, authException) -> {
+                    String uri = request.getRequestURI();
+                    
+                    // Si el usuario sin sesión intenta entrar a la raíz o a un recurso visual...
+                    if (uri.equals("/") || uri.endsWith(".html")) {
+                        response.sendRedirect("/login.html");
+                    } else {
+                        // Si es una petición asíncrona o API REST (ej: /notes), mandamos el error para que lo maneje tu JS
+                        response.sendRedirect("/error?status=401");
+                    }
+                })
+            )
+
             .logout(logout -> logout
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout=true")
+                .logoutSuccessUrl("/login.html")
                 .invalidateHttpSession(true)   // destruye la HttpSession en el servidor
                 .deleteCookies("JSESSIONID")
             );
@@ -83,18 +100,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    /**
-     * PUNTO CLAVE 2 — DaoAuthenticationProvider
-     *
-     * Conecta Spring Security con nuestra fuente de datos personalizada.
-     * Al configurar explícitamente este provider:
-     *   - Spring sabe que debe usar CustomUserDetailsService para cargar usuarios
-     *   - Spring sabe que las contraseñas están hasheadas con BCrypt
-     *   - El proceso de login es: cargar usuario → verificar hash → crear sesión
-     *
-     * Esto contrasta con admin-service donde el provider se configura
-     * automáticamente al declarar el bean InMemoryUserDetailsManager.
-     */
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

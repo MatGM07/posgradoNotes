@@ -10,21 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Controlador único que expone todos los endpoints del notes-service.
- * Las rutas están protegidas en dos niveles:
- *   1. Por URL/método en SecurityConfig  → quién puede llamar al endpoint
- *   2. Por lógica en NoteService         → si el recurso le pertenece al usuario
- */
 @RestController
 @RequiredArgsConstructor
 public class notasController {
 
     private final NoteService noteService;
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // ENDPOINTS DE NOTAS
-    // ─────────────────────────────────────────────────────────────────────────
 
     /**
      * GET /notes
@@ -76,9 +66,6 @@ public class notasController {
         return ResponseEntity.noContent().build();
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // ENDPOINTS AUXILIARES
-    // ─────────────────────────────────────────────────────────────────────────
 
     /**
      * GET /students — SOLO PROFESOR
@@ -100,4 +87,24 @@ public class notasController {
     public ResponseEntity<UserInfo> me() {
         return ResponseEntity.ok(noteService.obtenerUsuarioActual());
     }
+
+
+    /**
+     * GET /notes/all — SOLO ASISTENTE (Protegido en SecurityConfig)
+     * Retorna absolutamente todas las notas registradas en la base de datos.
+     */
+    @GetMapping("/notes/all")
+    public ResponseEntity<List<Note>> listarTodasLasNotas() {
+        return ResponseEntity.ok(noteService.listarTodasLasNotas());
+    }
+
+    /**
+     * GET /users — SOLO ASISTENTE (Protegido en SecurityConfig)
+     * Retorna el listado completo de usuarios (Profesores, Estudiantes y Asistentes).
+     */
+    @GetMapping("/users")
+    public ResponseEntity<List<UserInfo>> listarTodosLosUsuarios() {
+        return ResponseEntity.ok(noteService.listarTodosLosUsuarios());
+    }
+
 }
